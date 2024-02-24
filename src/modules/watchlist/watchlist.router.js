@@ -1,0 +1,11 @@
+import { Router } from "express";
+import * as watchController from "./watchlist.controller.js";
+import { endPoint } from "./watchlist.endpoint.js";
+import { auth } from "../../middleware/auth.js";
+import { asyncHandler } from "../services/errorHandling.js";
+const router = Router();
+router.post("/", auth(endPoint.create), asyncHandler(watchController.createWatchlist));
+router.patch("/removeItem", auth(endPoint.delete),asyncHandler(watchController.removeItem));
+router.patch("/clear", auth(endPoint.clear),asyncHandler(watchController.clearWatchlist));
+router.get("/get", auth(endPoint.get),asyncHandler(watchController.getWatchlist));
+export default router;
