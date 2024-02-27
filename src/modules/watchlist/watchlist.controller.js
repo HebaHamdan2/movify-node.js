@@ -80,7 +80,7 @@ export const getWatchlist = async (req, res) => {
 export const checkIsinwatchlist=async (req,res,next)=>{
   const{showId}=req.body;
   const watchlist=await watchlistModel.findOne({userId:req.user._id});
-  if(!watchlist){  return res.status(200).json('watchlist is empty')}
+  if(!watchlist){  return res.status(200).json({message:'watchlist is empty'})}
   for(let i=0;i<watchlist.shows.length;i++){
     if(watchlist.shows[i].showId===showId){
       return  res.status(200).json({ message: "show is saved"});
