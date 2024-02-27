@@ -10,6 +10,7 @@ const favSchema = new Schema(
     shows: [
       {
         showId: { type: Number, required: true },
+        type:{type:String,required:true}
       },
     ],
     count:{

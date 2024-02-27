@@ -1,12 +1,12 @@
 import favModel from "../../../DB/model/favourite.model.js";
 
 export const createFav = async (req, res,next) => {
-  const { showId } = req.body;
+  const { showId ,type} = req.body;
   const fav = await favModel.findOne({ userId: req.user._id })
   if (!fav) {
     const newFav = await favModel.create({
       userId: req.user._id,
-      shows: { showId },
+      shows: { showId ,type},
       count:1
     });
 
@@ -28,6 +28,7 @@ export const createFav = async (req, res,next) => {
       $pull: {
         shows: {
           showId,
+          type
         },
 
       },
@@ -37,7 +38,7 @@ export const createFav = async (req, res,next) => {
   }
   if(!matched){
   let count=fav.shows.length+1;
-    await fav.shows.push({ showId });
+    await fav.shows.push({ showId,type });
     fav.count=count;
     fav.save();}
     return res.status(201).json({ message: "success", fav });
@@ -45,7 +46,7 @@ export const createFav = async (req, res,next) => {
 };
 
 export const removeItem = async (req, res) => {
-  const { showId } = req.body;
+  const { showId ,type} = req.body;
   const fav = await favModel.findOne({ userId: req.user._id })
   let count=fav.count-1;
   await favModel.updateOne(
@@ -54,6 +55,7 @@ export const removeItem = async (req, res) => {
       $pull: {
         shows: {
           showId,
+          type
         },
 
       },
@@ -75,11 +77,11 @@ export const getFav = async (req, res) => {
   return res.status(200).json({ message: "success", fav: fav });
 };
 export const checkIsinFav=async (req,res,next)=>{
-  const{showId}=req.body;
+  const{showId,type}=req.body;
   const fav=await favModel.findOne({userId:req.user._id});
   if(!fav){  return res.status(200).json({message:'favourite list is empty'})}
   for(let i=0;i<fav.shows.length;i++){
-    if(fav.shows[i].showId===showId){
+    if(fav.shows[i].showId===showId && fav.shows[i].type===type){
       return  res.status(200).json({ message: "show is saved"});
     }
   }

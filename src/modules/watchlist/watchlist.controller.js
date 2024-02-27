@@ -1,12 +1,12 @@
 import watchlistModel from "../../../DB/model/watchlist.model.js";
 
 export const createWatchlist = async (req, res,next) => {
-  const { showId } = req.body;
+  const { showId,type} = req.body;
   const watchlist = await watchlistModel.findOne({ userId: req.user._id })
   if (!watchlist) {
     const newWatchlist = await watchlistModel.create({
       userId: req.user._id,
-      shows: { showId },
+      shows: { showId ,type},
       count:1
     });
 
@@ -27,6 +27,7 @@ await watchlistModel.updateOne(
     $pull: {
       shows: {
         showId,
+        type
       },
 
     },
@@ -37,7 +38,7 @@ await watchlistModel.updateOne(
     if(!matched){
       let count=watchlist.shows.length+1;
       watchlist.count=count;
-       await watchlist.shows.push({ showId });
+       await watchlist.shows.push({ showId,type });
        watchlist.save();
     }
    
@@ -47,7 +48,7 @@ await watchlistModel.updateOne(
 };
 
 export const removeItem = async (req, res) => {
-  const { showId } = req.body;
+  const { showId,type } = req.body;
   const watchlist = await watchlistModel.findOne({ userId: req.user._id })
   let count=watchlist.count-1;
   
@@ -57,6 +58,7 @@ export const removeItem = async (req, res) => {
       $pull: {
         shows: {
           showId,
+          type
         },
 
       },
@@ -78,11 +80,12 @@ export const getWatchlist = async (req, res) => {
   return res.status(200).json({ message: "success", watchlist: watchlist });
 };
 export const checkIsinwatchlist=async (req,res,next)=>{
-  const{showId}=req.body;
+  const{showId,type}=req.body;
   const watchlist=await watchlistModel.findOne({userId:req.user._id});
   if(!watchlist){  return res.status(200).json({message:'watchlist is empty'})}
+  
   for(let i=0;i<watchlist.shows.length;i++){
-    if(watchlist.shows[i].showId===showId){
+    if(watchlist.shows[i].showId===showId &&watchlist.shows[i].type===type ){
       return  res.status(200).json({ message: "show is saved"});
     }
   }
