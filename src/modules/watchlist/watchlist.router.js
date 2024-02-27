@@ -8,5 +8,5 @@ router.post("/", auth(endPoint.create), asyncHandler(watchController.createWatch
 router.patch("/removeItem", auth(endPoint.delete),asyncHandler(watchController.removeItem));
 router.patch("/clear", auth(endPoint.clear),asyncHandler(watchController.clearWatchlist));
 router.get("/get", auth(endPoint.get),asyncHandler(watchController.getWatchlist));
-router.get("/check", auth(endPoint.get),asyncHandler(watchController.checkIsinwatchlist));
+router.patch("/check", auth(endPoint.get),asyncHandler(watchController.checkIsinwatchlist));
 export default router;
