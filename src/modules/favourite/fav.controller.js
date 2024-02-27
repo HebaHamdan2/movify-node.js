@@ -15,7 +15,7 @@ export const createFav = async (req, res,next) => {
 
     let matched= false;
     for (let i = 0; i < fav.shows.length; i++) {
-      if (fav.shows[i].showId == showId) {
+      if (fav.shows[i].showId === showId) {
         matched = true;
         break;
       }
@@ -74,3 +74,14 @@ export const getFav = async (req, res) => {
   const fav = await favModel.findOne({ userId: req.user._id });
   return res.status(200).json({ message: "success", fav: fav });
 };
+export const checkIsinFav=async (req,res,next)=>{
+  const{showId}=req.body;
+  const fav=await favModel.findOne({userId:req.user._id});
+  if(!fav){  return next(new Error('favourite list is empty'));}
+  for(let i=0;i<fav.shows.length;i++){
+    if(fav.shows[i].showId===showId){
+      return  res.status(200).json({ message: "show is saved"});
+    }
+  }
+  return res.status(200).json({message:"not saved"});
+}

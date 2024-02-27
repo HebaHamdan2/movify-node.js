@@ -14,7 +14,7 @@ export const createWatchlist = async (req, res,next) => {
   }
   let matched= false;
   for (let i = 0; i < watchlist.shows.length; i++) {
-    if (watchlist.shows[i].showId == showId) {
+    if (watchlist.shows[i].showId === showId) {
       matched = true;
       break;
     }
@@ -77,3 +77,14 @@ export const getWatchlist = async (req, res) => {
   const watchlist = await watchlistModel.findOne({ userId: req.user._id });
   return res.status(200).json({ message: "success", watchlist: watchlist });
 };
+export const checkIsinwatchlist=async (req,res,next)=>{
+  const{showId}=req.body;
+  const watchlist=await watchlistModel.findOne({userId:req.user._id});
+  if(!watchlist){  return next(new Error('watchlist is empty'));}
+  for(let i=0;i<watchlist.shows.length;i++){
+    if(watchlist.shows[i].showId===showId){
+      return  res.status(200).json({ message: "show is saved"});
+    }
+  }
+  return res.status(200).json({message:"not saved"});
+}

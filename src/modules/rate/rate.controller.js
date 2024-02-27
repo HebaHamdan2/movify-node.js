@@ -6,7 +6,7 @@ export const create=async(req,res,next)=>{
     
     const checkRate=await rateModel.findOne({
         createdBy:req.user._id,
-        showId:showId.toString()
+        showId:showId
     })
     if(checkRate){
         return next(new Error(`alredy rate`,{cause:404}));
