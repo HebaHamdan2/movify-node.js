@@ -77,7 +77,7 @@ export const getFav = async (req, res) => {
 export const checkIsinFav=async (req,res,next)=>{
   const{showId}=req.body;
   const fav=await favModel.findOne({userId:req.user._id});
-  if(!fav){  return next(new Error('favourite list is empty'));}
+  if(!fav){  return res.status(200).json({message:'favourite list is empty'})}
   for(let i=0;i<fav.shows.length;i++){
     if(fav.shows[i].showId===showId){
       return  res.status(200).json({ message: "show is saved"});
