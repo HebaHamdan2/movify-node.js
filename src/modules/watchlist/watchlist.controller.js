@@ -48,7 +48,7 @@ await watchlistModel.updateOne(
 };
 
 export const removeItem = async (req, res) => {
-  const { showId,type } = req.body;
+  const {showId} = req.body;
   const watchlist = await watchlistModel.findOne({ userId: req.user._id })
   let count=watchlist.count-1;
   
@@ -57,8 +57,7 @@ export const removeItem = async (req, res) => {
     {
       $pull: {
         shows: {
-          showId,
-          type
+          showId
         },
 
       },

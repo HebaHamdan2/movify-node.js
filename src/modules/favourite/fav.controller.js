@@ -46,7 +46,7 @@ export const createFav = async (req, res,next) => {
 };
 
 export const removeItem = async (req, res) => {
-  const { showId ,type} = req.body;
+  const { showId} = req.body;
   const fav = await favModel.findOne({ userId: req.user._id })
   let count=fav.count-1;
   await favModel.updateOne(
@@ -54,8 +54,7 @@ export const removeItem = async (req, res) => {
     {
       $pull: {
         shows: {
-          showId,
-          type
+          showId
         },
 
       },
