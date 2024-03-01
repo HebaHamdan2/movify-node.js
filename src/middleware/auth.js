@@ -21,7 +21,7 @@ export const auth = (accessRoles = []) => {
     }
     if (parseInt(user.changePassword?.getTime() / 1000) > decoded.iat) {
       // check if the time of changing password is after of creating the token or sign in time,so sign out the token is expired
-      return next(new Error(`expired token , plz login`, { cause: 400 }));
+      return next(new Error(`expired token , please login`, { cause: 400 }));
     }
     if (!accessRoles.includes(user.role)) {
       return res.status(403).json({ message: 'not auth user' });

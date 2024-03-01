@@ -3,7 +3,7 @@ import joi from "joi";
 export const generalFields = {
   // id:joi.string().min(24).max(24).custom(validationObjectId).required(),
   email: joi.string().email().required().min(5).messages({
-    "string.email": "plz enter a valid email",
+    "string.email": "please enter a valid email",
     "string.empty": "email is required",
   }),
   password: joi.string().required().min(3).messages({

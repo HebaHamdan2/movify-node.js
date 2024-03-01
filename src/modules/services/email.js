@@ -9,7 +9,7 @@ export async function sendEmail(to, subject, html) {
   });
 
   const info = await transporter.sendMail({
-    from: `"ecommerce" <${process.env.EMAILSENDER}>`,
+    from: `"Movify" <${process.env.EMAILSENDER}>`,
     to,
     subject, // Subject line
     html,

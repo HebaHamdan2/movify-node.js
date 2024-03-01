@@ -20,7 +20,7 @@ export const signUp = async (req, res, next) => {
     await sendEmail(
       email,
       "confirm email",
-      `<a href='${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}'>verify</a>`
+      `<a href='${req.protocol}://${req.headers.host}/login/${token}'>Confirm Email</a>`
     );
 
     const createUser = await userModel.create({
@@ -40,7 +40,7 @@ export const signIn = async (req, res,next) => {
     return res.status(400).json({ message: "data invalid" });
   }
   if (!user.confirmEmail) {
-    return res.status(400).json({ message: "plz confirm your email" });
+    return res.status(400).json({ message: "please confirm your email" });
   }
 
   const match = await bcrypt.compare(password, user.password);
