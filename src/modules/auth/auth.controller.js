@@ -50,7 +50,7 @@ export const signIn = async (req, res,next) => {
   const token = jwt.sign(
     { id: user._id, role: user.role, status: user.status },
     process.env.LOGINSECRET
-  ); //,{expiresIn:'5m'});//important fot security like Banks case
+  );
   const refreshToken = jwt.sign(
     { id: user._id, role: user.role, status: user.status },
     process.env.LOGINSECRET,
@@ -68,9 +68,13 @@ export const confirmEmail = async (req, res) => {
     { email: decoded.email, confirmEmail: false },
     { confirmEmail: true }
   );
-  if (!user) {
-    return res.redirect(process.env.LOGINFRONTEND);
-  }
+  if(!user){
+    return next(new Error("your email is verified"));
+ }
+else{
+return res.redirect("https://movifyhebahamdan.netlify.app")
+}
+
 };
 export const sendCode = async (req, res) => {
   const { email } = req.body;
