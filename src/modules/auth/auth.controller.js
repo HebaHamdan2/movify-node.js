@@ -20,7 +20,7 @@ export const signUp = async (req, res, next) => {
     await sendEmail(
       email,
       "confirm email",
-      `<a href='${req.protocol}://${req.headers.host}/login/${token}'>Confirm Email</a>`
+      `<a href='${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}'>Confirm Email</a>`
     );
 
     const createUser = await userModel.create({
