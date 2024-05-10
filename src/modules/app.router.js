@@ -8,7 +8,7 @@ import cors from "cors"
 import { globalErrorHandler } from "./services/errorHandling.js";
 const initApp = async (app, express) => {
 // Enable cors at the server side. 
-const cors = require('cors')
+
 const corsOption = {
     origin: ['http://localhost:4000'],
     credentials: true,
