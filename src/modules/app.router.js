@@ -7,8 +7,14 @@ import watchRouter from "./watchlist/watchlist.router.js";
 import cors from "cors"
 import { globalErrorHandler } from "./services/errorHandling.js";
 const initApp = async (app, express) => {
-  app.use(cors())
-  app.use(cors({ origin: true }));
+// Enable cors at the server side. 
+const cors = require('cors')
+const corsOption = {
+    origin: ['http://localhost:4000'],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
+}
+app.use(cors(corsOption));
   connectDB();
   app.use(express.json());
   app.get("/", (req, res) => {
